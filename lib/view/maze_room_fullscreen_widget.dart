@@ -33,8 +33,7 @@ class MazeRoomFullScreenWidget extends StatelessWidget {
           rowSizes: [1.fr, 3.fr, 1.fr],
           children: [
             _buildDoor(null, Icons.keyboard_arrow_up).inGridArea("upperDoor"),
-            _buildDoor(null, Icons.keyboard_arrow_right).inGridArea(
-                "rightDoor"),
+            _buildDoor(null, Icons.keyboard_arrow_right).inGridArea("rightDoor"),
             _buildDoor(null, Icons.keyboard_arrow_down).inGridArea("lowerDoor"),
             _buildDoor(null, Icons.keyboard_arrow_left).inGridArea("leftDoor"),
             _buildCenter().inGridArea("center")
@@ -54,7 +53,7 @@ class MazeRoomFullScreenWidget extends StatelessWidget {
   Widget _buildCenter() {
     return Center(
       child: Text(
-          '(${room.location.x}, ${room.location.y})',
+        '(${room.location.x}, ${room.location.y})',
         style: const TextStyle(fontSize: 30),
       ),
     );

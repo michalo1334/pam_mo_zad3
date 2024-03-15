@@ -1,12 +1,14 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import '/model/game_session.dart';
 
-import '../model/maze_room.dart';
+import '/model/maze_room.dart';
 
 class MazeRoomMinimapWidget extends StatelessWidget {
   final MazeRoom room;
+  final GameSession? gameSession;
 
-  const MazeRoomMinimapWidget({super.key, required this.room});
+  const MazeRoomMinimapWidget(
+      {super.key, required this.room, this.gameSession});
 
   @override
   Widget build(BuildContext context) {
@@ -19,41 +21,26 @@ class MazeRoomMinimapWidget extends StatelessWidget {
             child: Stack(
               fit: StackFit.passthrough,
               children: [
-                FittedBox(
-                  fit: BoxFit.contain,
-                    child: _backgroundForRoomType()
-                ),
-                FittedBox(
-                  fit: BoxFit.contain,
-                  child: Text('${room.intValue}'),
-                ),
+                _backgroundForRoomType(),
+                FittedBox(fit: BoxFit.contain, child: Text('${room.intValue}')),
+                FittedBox(fit: BoxFit.contain, child: _iconForRoomType()),
               ],
             )));
   }
 
-  Widget _backgroundForRoomType() => switch (room) {
-        _ when room.isStartingRoom => _startingRoomBackground(),
-        _ when room.isEndRoom => _endRoomBackground(),
-        _ => _ordinaryRoomBackground(),
+  Widget _iconForRoomType() => switch (room) {
+        _ when gameSession?.currentLocation == room.location =>
+          Icon(Icons.person),
+        _ when room.isStartingRoom =>
+          Icon(Icons.star, color: Colors.yellow.withOpacity(0.7)),
+        _ when room.isEndRoom =>
+          Icon(Icons.flag, color: Colors.green.withOpacity(0.7)),
+        _ => Container(),
       };
 
-  Widget _startingRoomBackground() {
-    return Container(
-      color: Colors.grey,
-      child: Icon(Icons.star, color: Colors.yellow.withOpacity(0.7)),
-    );
-  }
-
-  Widget _ordinaryRoomBackground() {
-    return Container(
-      color: Colors.grey,
-    );
-  }
-
-  Widget _endRoomBackground() {
-    return Container(
-      color: Colors.grey,
-      child: Icon(Icons.flag, color: Colors.green.withOpacity(0.7)),
-    );
-  }
+  Widget _backgroundForRoomType() => switch (room) {
+        _ when room.isStartingRoom => Container(color: Colors.grey),
+        _ when room.isEndRoom => Container(color: Colors.grey),
+        _ => Container(),
+      };
 }
