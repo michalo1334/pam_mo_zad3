@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:pam_mo_zad3/model/game_session.dart';
 import 'package:pam_mo_zad3/model/maze.dart';
 import 'package:pam_mo_zad3/model/maze_room.dart';
 import 'package:pam_mo_zad3/view/maze_room_fullscreen_widget.dart';
 import 'package:pam_mo_zad3/view/maze_room_minimap_widget.dart';
+import 'package:pam_mo_zad3/view/pages/start_page.dart';
 
 import 'model/types.dart';
 import 'view/maze_minimap_widget.dart';
@@ -18,6 +20,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         // This is the theme of your application.
@@ -69,6 +72,13 @@ class _MyHomePageState extends State<MyHomePage> {
     6, 5, 6, 5
   ];
   Extent sampleExtent = (w: 4, h: 4);
+  late Maze sampleMaze;
+  
+  @override
+  void initState() {
+    sampleMaze = Maze.fromIntList(sampleExtent, sampleList);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +87,7 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: MazeMinimapWidget(maze: Maze.fromIntList(sampleExtent, sampleList)),
+      body: StartPage()
     );
   }
 }
