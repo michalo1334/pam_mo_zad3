@@ -1,0 +1,1 @@
+typedef Location = ({int x, int y});
