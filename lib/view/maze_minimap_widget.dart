@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pam_mo_zad3/view/maze_room_minimap_widget.dart';
-
+import 'package:vector_math/vector_math_64.dart';
+import '/view/maze_room_minimap_widget.dart';
 import '../model/maze.dart';
 
 class MazeMinimapWidget extends StatefulWidget {
@@ -17,9 +17,17 @@ class _MazeMinimapWidgetState extends State<MazeMinimapWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return GridView.count(
-        crossAxisCount: maze.extent.w,
-      children: maze.rooms.map((e) => MazeRoomMinimapWidget(room: e)).toList()
+    return ClipOval(
+      child: AspectRatio(
+        aspectRatio: 1,
+        child: Transform(
+          transform: Matrix4.translation(Vector3(0, 0, 0)),
+          child: GridView.count(
+              crossAxisCount: maze.extent.w,
+            children: maze.rooms.map((e) => MazeRoomMinimapWidget(room: e)).toList()
+          ),
+        ),
+      ),
     );
   }
 }
