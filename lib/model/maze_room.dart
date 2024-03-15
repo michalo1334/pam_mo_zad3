@@ -52,16 +52,12 @@ class MazeRoom extends ChangeNotifier {
     notifyListeners();
   }
 
-  MazeRoom((int, int) loc)
-      : location = (x: loc.$1, y: loc.$2),
-        _flags = 0;
+  MazeRoom(this.location)
+        : _flags = 0;
 
-  MazeRoom.fromBitFlags((int, int) loc, int flags)
-      : location = (x: loc.$1, y: loc.$2),
-        _flags = flags;
+  MazeRoom.fromBitFlags(this.location, this._flags);
 
-  MazeRoom.random((int, int) loc, {bool startingRoom = false})
-      : location = (x: loc.$1, y: loc.$2) {
+  MazeRoom.random(this.location, {bool startingRoom = false}) {
     var rng = Random(6);
     hasLeftDoor = rng.nextBool();
     hasRightDoor = rng.nextBool();
