@@ -5,6 +5,15 @@ import 'maze_room.dart';
 import 'types.dart';
 
 class GameSession extends ChangeNotifier {
+  bool _finished = false;
+
+  bool get finished => _finished;
+
+  set finished(bool value) {
+    _finished = value;
+    notifyListeners();
+  }
+
   final Maze maze;
   MazeRoom _currentRoom;
 
@@ -50,5 +59,9 @@ class GameSession extends ChangeNotifier {
       currentRoom = maze.roomsGrid[currentLocation.y + 1][currentLocation.x];
       notifyListeners();
     }
+  }
+
+  void finishSession() {
+    finished = true;
   }
 }
