@@ -11,8 +11,8 @@ class Maze extends ChangeNotifier {
 
   final Extent extent;
 
-  late final MazeRoom startingRoom;
-  late final MazeRoom endRoom;
+  MazeRoom get startingRoom => rooms.firstWhere((e) => e.isStartingRoom);
+  MazeRoom get endRoom => rooms.firstWhere((e) => e.isEndRoom);
 
   //Zwróć listę jako obiekty Pokoi
   //Zakładamy że pokoje w liście są ułożone wierszami tj.[ [wiersz1], [wiersz2] ] itd.
@@ -66,9 +66,5 @@ class Maze extends ChangeNotifier {
     _roomIntRepList[endIdx] = roomToModifyEnd.intValue;
   }
 
-  Maze.fromIntList(this.extent, this._roomIntRepList) {
-    //Find starting and end room location
-    startingRoom = rooms.firstWhere((e) => e.isStartingRoom);
-    endRoom = rooms.firstWhere((e) => e.isEndRoom);
-  }
+  Maze.fromIntList(this.extent, this._roomIntRepList);
 }
