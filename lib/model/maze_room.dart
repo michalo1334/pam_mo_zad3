@@ -4,6 +4,13 @@ import 'package:flutter/material.dart';
 
 import 'types.dart';
 
+//Ważna rzecz: obiekty MazeRoom w klasie Maze są przechowywane w formie intów i tylko dla potrzeby wygodnego modelowania są konwertowane na tą klasę
+//Dlatego gdy modyfikujemy obiekty MazeRoom należy jawnie przypisać do inta nową wartość tj.
+
+//var room = MazeRoom.fromBitFlags(listaPokoiInt[0])
+//jakieś operacje np. room.isEndRoom = true;
+//aktualizujemy pod indeksem
+//listaPokoiInt[0] = room.intValue
 class MazeRoom extends ChangeNotifier {
   int _flags = 0;
 
@@ -50,6 +57,10 @@ class MazeRoom extends ChangeNotifier {
   set isStartingRoom(bool value) {
     _flags = MazeRoomFlags.isStartingRoom.withChangedFlag(_flags, value);
     notifyListeners();
+  }
+
+  set isEndRoom(bool value) {
+    _flags = value ? 0 : _flags;
   }
 
   MazeRoom(this.location)
