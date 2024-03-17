@@ -23,15 +23,42 @@ class _StartPageState extends State<StartPage> {
   @override
   Widget build(BuildContext context) {
     return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          _buildDefaultGameButton(),
+          _buildGeneratedMazeButton()
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDefaultGameButton() {
+    return Center(
         child: ElevatedButton(
       onPressed: () {
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-                builder: (context) =>
-                    GamePage(gameSession: GameSession.newSession(defaultMaze))));
+                builder: (context) => GamePage(
+                    gameSession: GameSession.newSession(defaultMaze))));
       },
       child: Text('Nowa gra na domyślnej mapie'),
+    ));
+  }
+
+  Widget _buildGeneratedMazeButton() {
+    return Center(
+        child: ElevatedButton(
+      onPressed: () {
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => GamePage(
+                    gameSession:
+                        GameSession.newSession(Maze.random((w: 8, h: 8))))));
+      },
+      child: Text('Nowa gra na losowej mapie 8x8'),
     ));
   }
 }

@@ -14,12 +14,6 @@ class MazeRoomFullScreenWidget extends StatelessWidget {
   .         lowerDoor .
   """;
 
-  final String gridHUDTemplate = """
-  . . .
-  . . .
-  . . minimap
-  """;
-
   const MazeRoomFullScreenWidget(
       {super.key, required this.room, this.gameSession});
 

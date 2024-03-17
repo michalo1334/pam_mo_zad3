@@ -9,11 +9,18 @@ class ScorePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("s"),
-      ),
-      body: Center(child: Text("koniec gry!"))
-    );
+        appBar: AppBar(
+          title: Text("s"),
+        ),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text("Koniec gry!"),
+              Text("Czas: ${gameSession.stopwatch.elapsed.toString()}"),
+              Text("Odwiedzone komnaty: ${gameSession.visitedRooms}")
+            ],
+          ),
+        ));
   }
-
 }

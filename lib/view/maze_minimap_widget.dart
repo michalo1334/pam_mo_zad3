@@ -28,24 +28,19 @@ class _MazeMinimapWidgetState extends State<MazeMinimapWidget> {
     }
   }
 
-  Column _build() {
-    return Column(
-      children: [
-        ElevatedButton(onPressed: () {gameSession?.moveThroughBottomDoor();}, child: Text("W dół")),
-        ElevatedButton(onPressed: () {gameSession?.moveThroughTopDoor();}, child: Text("W góre")),
-        ElevatedButton(onPressed: () {gameSession?.moveThroughLeftDoor();}, child: Text("W lewo")),
-        ElevatedButton(onPressed: () {gameSession?.moveThroughRightDoor();}, child: Text("W prawo")),
-        AspectRatio(
-          aspectRatio: 1,
-          child: Transform(
-            transform: Matrix4.translation(Vector3(0, 0, 0)),
-            child: GridView.count(
-                crossAxisCount: maze.extent.w,
-              children: maze.rooms.map((e) => MazeRoomMinimapWidget(room: e, gameSession: gameSession)).toList()
-            ),
+  Widget _build() {
+    return Align(
+      alignment: Alignment.bottomRight,
+      child: AspectRatio(
+        aspectRatio: 1,
+        child: Transform(
+          transform: Matrix4.translation(Vector3(0, 0, 0)),
+          child: GridView.count(
+              crossAxisCount: maze.extent.w,
+            children: maze.rooms.map((e) => MazeRoomMinimapWidget(room: e, gameSession: gameSession)).toList()
           ),
         ),
-      ],
+      ),
     );
   }
 }
