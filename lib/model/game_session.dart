@@ -22,6 +22,8 @@ class GameSession extends ChangeNotifier {
 
   MazeRoom get currentRoom => _currentRoom;
 
+  bool get isInFinalRoom => currentRoom.location == maze.endRoom.location;
+
   set currentRoom(MazeRoom value) {
     _currentRoom = value;
     notifyListeners();
@@ -36,6 +38,8 @@ class GameSession extends ChangeNotifier {
   void moveThroughLeftDoor() {
     if (currentRoom.hasLeftDoor) {
       currentRoom = maze.roomsGrid[currentLocation.y][currentLocation.x - 1];
+
+      finished = isInFinalRoom;
       notifyListeners();
     }
   }
@@ -43,6 +47,8 @@ class GameSession extends ChangeNotifier {
   void moveThroughRightDoor() {
     if (currentRoom.hasRightDoor) {
       currentRoom = maze.roomsGrid[currentLocation.y][currentLocation.x + 1];
+
+      finished = isInFinalRoom;
       notifyListeners();
     }
   }
@@ -50,6 +56,8 @@ class GameSession extends ChangeNotifier {
   void moveThroughTopDoor() {
     if (currentRoom.hasUpperDoor) {
       currentRoom = maze.roomsGrid[currentLocation.y - 1][currentLocation.x];
+
+      finished = isInFinalRoom;
       notifyListeners();
     }
   }
@@ -57,6 +65,8 @@ class GameSession extends ChangeNotifier {
   void moveThroughBottomDoor() {
     if (currentRoom.hasLowerDoor) {
       currentRoom = maze.roomsGrid[currentLocation.y + 1][currentLocation.x];
+
+      finished = isInFinalRoom;
       notifyListeners();
     }
   }
