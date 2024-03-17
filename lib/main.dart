@@ -65,18 +65,11 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  List<int> sampleList = [
-    10, 8, 10, 9,
-    28, 1, 0, 12,
-    12, 10, 9, 13,
-    6, 5, 6, 5
-  ];
-  Extent sampleExtent = (w: 4, h: 4);
   late Maze sampleMaze;
   
   @override
   void initState() {
-    sampleMaze = Maze.fromIntList(sampleExtent, sampleList);
+    sampleMaze = Maze.sample();
     super.initState();
   }
 
