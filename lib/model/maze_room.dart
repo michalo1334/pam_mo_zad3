@@ -69,7 +69,7 @@ class MazeRoom extends ChangeNotifier {
   MazeRoom.fromBitFlags(this.location, this._flags);
 
   MazeRoom.random(this.location, {bool startingRoom = false}) {
-    var rng = Random(6);
+    var rng = Random();
     hasLeftDoor = rng.nextBool();
     hasRightDoor = rng.nextBool();
     hasUpperDoor = rng.nextBool();
@@ -94,5 +94,5 @@ enum MazeRoomFlags {
 
   //Return input integer with set/reset bit value
   int withChangedFlag(int flags, bool value) =>
-      flags | ((value ? 1 : 0) << bitPosition);
+      (flags & ~(1 << bitPosition)) | ((value ? 1 : 0) << bitPosition);
 }
