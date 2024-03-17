@@ -63,17 +63,34 @@ class MazeRoom extends ChangeNotifier {
     _flags = value ? 0 : _flags;
   }
 
-  MazeRoom(this.location)
-        : _flags = 0;
+  MazeRoom(this.location) : _flags = 0;
 
   MazeRoom.fromBitFlags(this.location, this._flags);
 
-  MazeRoom.random(this.location, {bool startingRoom = false}) {
+  MazeRoom.random(this.location,
+      {required Extent mazeExtent, bool startingRoom = false}) {
     var rng = Random();
-    hasLeftDoor = rng.nextBool();
-    hasRightDoor = rng.nextBool();
-    hasUpperDoor = rng.nextBool();
-    hasLowerDoor = rng.nextBool();
+
+    //Na krawędziach nie może być drzwi
+    hasLeftDoor = location.x == 0 ? false : rng.nextBool();
+    hasRightDoor = location.x == mazeExtent.w - 1? false : rng.nextBool();
+    hasUpperDoor = location.y == 0 ? false : rng.nextBool();
+    hasLowerDoor = location.y == mazeExtent.h - 1 ? false : rng.nextBool();
+
+    //By nie było niechcianych pokoi końcowych
+    //Końcowy jest ręcznie ustawiany z Maze'a
+    if (isEndRoom) {
+      //ustaw pierwsze lepsze, byle nie na krawędzi
+      if(location.x != 0)
+        hasLeftDoor = true;
+      else if(location.x != mazeExtent.w - 1)
+        hasRightDoor = true;
+      else if(location.y != 0)
+        hasUpperDoor = true;
+      else if(location.y != mazeExtent.h - 1)
+        hasLowerDoor = true;
+    }
+
     isStartingRoom = startingRoom;
   }
 }

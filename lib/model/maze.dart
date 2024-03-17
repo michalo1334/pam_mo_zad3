@@ -12,6 +12,7 @@ class Maze extends ChangeNotifier {
   final Extent extent;
 
   MazeRoom get startingRoom => rooms.firstWhere((e) => e.isStartingRoom);
+
   MazeRoom get endRoom => rooms.firstWhere((e) => e.isEndRoom);
 
   //Zwróć listę jako obiekty Pokoi
@@ -36,10 +37,22 @@ class Maze extends ChangeNotifier {
 
   factory Maze.sample() {
     const List<int> list = [
-      10, 8, 10, 9,
-      28, 1, 0, 12,
-      12, 10, 9, 13,
-      6, 5, 6, 5
+      10,
+      8,
+      10,
+      9,
+      28,
+      1,
+      0,
+      12,
+      12,
+      10,
+      9,
+      13,
+      6,
+      5,
+      6,
+      5
     ];
 
     return Maze.fromIntList((w: 4, h: 4), list);
@@ -48,20 +61,24 @@ class Maze extends ChangeNotifier {
   Maze.random(this.extent) {
     var rng = Random();
 
-    //Nie generuj koordynatów dla pokoi, i tak zostaną one zamienione na reprezentację intową
     _roomIntRepList = List.generate(
-        extent.w * extent.h, (idx) => MazeRoom.random((x: -1, y: -1)).intValue);
+        extent.w * extent.h,
+        (idx) => MazeRoom.random((x: idx % extent.h, y: idx ~/ extent.w),
+                mazeExtent: extent)
+            .intValue);
 
     //Losuj lokację pokoju startowego (indeks w tablicy 1D dla ułatwienia)
     //Zamień na reprezentację modelu, zmodyfikuj, po czym przypisz z powrotem
     int startIdx = rng.nextInt(_roomIntRepList.length);
-    var roomToModifyStart = MazeRoom.fromBitFlags((x: -1, y: -1), _roomIntRepList[startIdx]);
+    var roomToModifyStart =
+        MazeRoom.fromBitFlags((x: -1, y: -1), _roomIntRepList[startIdx]);
     roomToModifyStart.isStartingRoom = true;
     _roomIntRepList[startIdx] = roomToModifyStart.intValue;
 
     //Losuj lokację pokoju końcowego (indeks w tablicy 1D dla ułatwienia)
     int endIdx = rng.nextInt(_roomIntRepList.length);
-    var roomToModifyEnd = MazeRoom.fromBitFlags((x: -1, y: -1), _roomIntRepList[startIdx]);
+    var roomToModifyEnd =
+        MazeRoom.fromBitFlags((x: -1, y: -1), _roomIntRepList[startIdx]);
     roomToModifyEnd.isEndRoom = true;
     _roomIntRepList[endIdx] = roomToModifyEnd.intValue;
   }
