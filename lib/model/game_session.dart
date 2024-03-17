@@ -11,18 +11,21 @@ class GameSession extends ChangeNotifier {
 
   set finished(bool value) {
     _finished = value;
+    if(_finished) stopwatch.stop();
     notifyListeners();
   }
 
   final Maze maze;
+
+  //Gdzie jest gracz
   MazeRoom _currentRoom;
 
+  //Statystyki
   int visitedRooms = 0;
   Duration elapsedTime = Duration.zero;
+  Stopwatch stopwatch;
 
   MazeRoom get currentRoom => _currentRoom;
-
-  bool get isInFinalRoom => currentRoom.location == maze.endRoom.location;
 
   set currentRoom(MazeRoom value) {
     _currentRoom = value;
@@ -31,15 +34,18 @@ class GameSession extends ChangeNotifier {
 
   Location get currentLocation => currentRoom.location;
 
+  bool get isInFinalRoom => currentRoom.location == maze.endRoom.location;
 
   GameSession.newSession(this.maze)
-      : _currentRoom = maze.startingRoom;
+      : _currentRoom = maze.startingRoom,
+      stopwatch = Stopwatch()..start();
 
   void moveThroughLeftDoor() {
     if (currentRoom.hasLeftDoor) {
       currentRoom = maze.roomsGrid[currentLocation.y][currentLocation.x - 1];
 
       finished = isInFinalRoom;
+      visitedRooms++;
       notifyListeners();
     }
   }
@@ -49,6 +55,7 @@ class GameSession extends ChangeNotifier {
       currentRoom = maze.roomsGrid[currentLocation.y][currentLocation.x + 1];
 
       finished = isInFinalRoom;
+      visitedRooms++;
       notifyListeners();
     }
   }
@@ -58,6 +65,7 @@ class GameSession extends ChangeNotifier {
       currentRoom = maze.roomsGrid[currentLocation.y - 1][currentLocation.x];
 
       finished = isInFinalRoom;
+      visitedRooms++;
       notifyListeners();
     }
   }
@@ -67,6 +75,7 @@ class GameSession extends ChangeNotifier {
       currentRoom = maze.roomsGrid[currentLocation.y + 1][currentLocation.x];
 
       finished = isInFinalRoom;
+      visitedRooms++;
       notifyListeners();
     }
   }
