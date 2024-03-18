@@ -66,7 +66,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   late Maze sampleMaze;
-  
+
   @override
   void initState() {
     sampleMaze = Maze.sample();
@@ -74,13 +74,5 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: StartPage()
-    );
-  }
+  Widget build(BuildContext context) => StartPage();
 }
