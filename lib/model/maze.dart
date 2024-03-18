@@ -20,8 +20,8 @@ class Maze extends ChangeNotifier {
   //Przypisz do każdego pokoju odpowiadającą mu lokację (poprzez podwójną pętlę)
   List<MazeRoom> get rooms {
     return [
-      for (var i = 0; i < extent.w; i++)
-        for (var j = 0; j < extent.h; j++)
+      for (var i = 0; i < extent.h; i++)
+        for (var j = 0; j < extent.w; j++)
           MazeRoom.fromBitFlags((x: j, y: i), _roomIntRepList[i * extent.w + j])
     ];
   }
@@ -30,8 +30,8 @@ class Maze extends ChangeNotifier {
   List<List<MazeRoom>> get roomsGrid {
     var r = rooms;
     return [
-      for (var i = 0; i < extent.w; i++)
-        [for (var j = 0; j < extent.h; j++) r[i * extent.w + j]]
+      for (var i = 0; i < extent.h; i++)
+        [for (var j = 0; j < extent.w; j++) r[i * extent.w + j]]
     ];
   }
 
@@ -67,6 +67,13 @@ class Maze extends ChangeNotifier {
                 mazeExtent: extent)
             .intValue);
 
+    //Losuj lokację pokoju końcowego (indeks w tablicy 1D dla ułatwienia)
+    int endIdx = rng.nextInt(_roomIntRepList.length);
+    var roomToModifyEnd =
+    MazeRoom.fromBitFlags((x: -1, y: -1), _roomIntRepList[endIdx]);
+    roomToModifyEnd.isEndRoom = true;
+    _roomIntRepList[endIdx] = roomToModifyEnd.intValue;
+
     //Losuj lokację pokoju startowego (indeks w tablicy 1D dla ułatwienia)
     //Zamień na reprezentację modelu, zmodyfikuj, po czym przypisz z powrotem
     int startIdx = rng.nextInt(_roomIntRepList.length);
@@ -74,13 +81,6 @@ class Maze extends ChangeNotifier {
         MazeRoom.fromBitFlags((x: -1, y: -1), _roomIntRepList[startIdx]);
     roomToModifyStart.isStartingRoom = true;
     _roomIntRepList[startIdx] = roomToModifyStart.intValue;
-
-    //Losuj lokację pokoju końcowego (indeks w tablicy 1D dla ułatwienia)
-    int endIdx = rng.nextInt(_roomIntRepList.length);
-    var roomToModifyEnd =
-        MazeRoom.fromBitFlags((x: -1, y: -1), _roomIntRepList[startIdx]);
-    roomToModifyEnd.isEndRoom = true;
-    _roomIntRepList[endIdx] = roomToModifyEnd.intValue;
   }
 
   Maze.fromIntList(this.extent, this._roomIntRepList);
