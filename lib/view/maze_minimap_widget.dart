@@ -33,12 +33,9 @@ class _MazeMinimapWidgetState extends State<MazeMinimapWidget> {
       alignment: Alignment.bottomRight,
       child: AspectRatio(
         aspectRatio: 1,
-        child: Transform(
-          transform: Matrix4.translation(Vector3(0, 0, 0)),
-          child: GridView.count(
-              crossAxisCount: maze.extent.w,
-            children: maze.rooms.map((e) => MazeRoomMinimapWidget(room: e, gameSession: gameSession)).toList()
-          ),
+        child: GridView.count(
+            crossAxisCount: maze.extent.w,
+          children: maze.rooms.map((e) => MazeRoomMinimapWidget(room: e, gameSession: gameSession)).toList()
         ),
       ),
     );
