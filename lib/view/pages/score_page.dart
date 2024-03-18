@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pam_mo_zad3/model/game_session.dart';
 
+import 'start_page.dart';
+
 class ScorePage extends StatelessWidget {
   final GameSession gameSession;
 
@@ -10,17 +12,27 @@ class ScorePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("s"),
+          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+          title: Text("Labiryncik"),
         ),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text("Koniec gry!"),
+              gameSession.won ? Text("Wygrałeś! 😎") : Text("Przegrałeś! 😭"),
               Text("Czas: ${gameSession.stopwatch.elapsed.toString()}"),
-              Text("Odwiedzone komnaty: ${gameSession.visitedRooms}")
+              Text("Odwiedzone komnaty: ${gameSession.visitedRooms}"),
+              ElevatedButton(
+                onPressed: () => _navigateToStartPage(context),
+                child: Text("Powrót"),
+              ),
             ],
           ),
         ));
+  }
+
+  void _navigateToStartPage(BuildContext ctx) {
+    Navigator.of(ctx).pushReplacement(MaterialPageRoute(builder: (context) => StartPage()));
   }
 }
