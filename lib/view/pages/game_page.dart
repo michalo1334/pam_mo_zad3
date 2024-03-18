@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:pam_mo_zad3/model/game_session.dart';
@@ -23,10 +25,13 @@ class GamePage extends StatefulWidget {
 }
 
 class _GamePageState extends State<GamePage> {
+  Timer? timer;
+
   GameSession get gameSession => widget.gameSession;
 
   @override
   void initState() {
+    timer = Timer.periodic(const Duration(milliseconds: 500), (timer) {setState((){});});
 
     gameSession.addListener(() {
       if(gameSession.finished) {
@@ -38,10 +43,21 @@ class _GamePageState extends State<GamePage> {
   }
 
   @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Labirynt"),
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: Text("Labiryncik"),
+        actions: [
+          _buildGiveUpButton(),
+          _buildTime(),
+        ],
       ),
       body: Stack(
         alignment: Alignment.bottomRight,
@@ -72,6 +88,25 @@ class _GamePageState extends State<GamePage> {
       ],
     );
   }
+
+  Widget _buildTime() {
+    return Row(
+      children: [
+        const Icon(Icons.timer),
+        Text(_format(gameSession.stopwatch.elapsed))
+      ],
+    );
+  }
+
+  Widget _buildGiveUpButton() {
+    return IconButton(
+        onPressed: () {gameSession.finishSession(win: false); _navigateToScorePage();},
+        tooltip: "Poddaj się",
+        icon: const Icon(Icons.thumb_down)
+    );
+  }
+
+  String _format(Duration d) => d.toString().split('.').first.padLeft(8, "0");
 
   void _navigateToScorePage() async {
     var nav = Navigator.of(context);
