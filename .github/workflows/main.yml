@@ -4,7 +4,7 @@ name: Build Flutter Web App
 on:
   push:
     branches:
-      - main
+      - master
   workflow_dispatch:
 
 
