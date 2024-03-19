@@ -33,7 +33,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: web-build
-          path: /build/web
+          path: /
           
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
